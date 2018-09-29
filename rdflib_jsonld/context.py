@@ -106,6 +106,8 @@ class Context(object):
             language=UNDEF, reverse=False):
         term = Term(idref, name, coercion, container, language, reverse)
         self.terms[name] = term
+        #print(idref, coercion or language, container, reverse)
+        container = tuple(container) if isinstance(container, list) else container
         self._lookup[(idref, coercion or language, container, reverse)] = term
         self._prefixes[idref] = name
 
@@ -201,7 +203,14 @@ class Context(object):
             if isinstance(source, basestring):
                 source_url = urljoin(base, source)
                 if source_url in referenced_contexts:
+                    #print(base, inputs, sources)
+                    #print(source_url, referenced_contexts)
                     raise errors.RECURSIVE_CONTEXT_INCLUSION
+                    # FIXME this doesn't detect recursion this detects ANY
+                    # double inclusion, including when the current file
+                    # and a file that it imports both import the same context
+                    # or two files which don't have to be imported at the same
+                    # time are, and they import the same thing ...
                 referenced_contexts.add(source_url)
                 source = source_to_json(source_url)
                 if CONTEXT not in source:
@@ -268,12 +277,18 @@ class Context(object):
                 nxt = iri + nxt
         else:
             nxt = self._get_source_id(source, nxt) or nxt
-            if ':' not in nxt and self.vocab:
-                return self.vocab + nxt
+            if self.vocab:
+                if not isinstance(nxt, str):
+                    return self.vocab + str(nxt)
+                elif ':' not in nxt:
+                    return self.vocab + nxt
         return self._rec_expand(source, nxt, expr)
 
     def _prep_expand(self, expr):
-        if ':' not in expr:
+        #print(expr)
+        if not isinstance(expr, str):
+            return True, None, expr  # floats are allowed
+        elif ':' not in expr:
             return True, None, expr
         pfx, local = expr.split(':', 1)
         if not local.startswith('//'):
