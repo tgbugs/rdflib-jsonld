@@ -97,7 +97,7 @@ install upstream rdflib-jsonld.  https://pypi.org/project/rdflib-jsonld/
         'Natural Language :: English',
     ],
     test_suite='nose.collector',
-    install_requires=['rdflib>=4.2.0'],
+    install_requires=['neurdflib>=5.0.0'],
     tests_require=['nose'],
     command_options={
         'build_sphinx': {

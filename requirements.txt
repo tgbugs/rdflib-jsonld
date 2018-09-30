@@ -1,1 +1,1 @@
-rdflib>=4.2.0
+neurdflib>=5.0.0

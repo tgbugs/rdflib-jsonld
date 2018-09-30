@@ -1,2 +1,2 @@
 flake8
-rdflib>=4.1.2
+neurdflib>=5.0.0
