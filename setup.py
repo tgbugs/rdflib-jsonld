@@ -61,18 +61,22 @@ def md2pypi(filename):
     return content
 
 
-name = 'rdflib-jsonld'
+name = 'neurdflib-jsonld'
 version = __import__('rdflib_jsonld').__version__
 
 
 setup(
     name=name,
     version=version,
-    description='rdflib extension adding JSON-LD parser and serializer',
-    long_description=md2pypi('README.md'),
-    maintainer='RDFLib Team',
-    maintainer_email='http://groups.google.com/group/rdflib-dev',
-    url='https://github.com/RDFLib/rdflib-jsonld',
+    description='TEMP RELEASE OF rdflib extension adding JSON-LD parser and serializer',
+    long_description="""\
+This is a temporary convenience package.
+Unless you have a specific use case for these changes you should
+install upstream rdflib-jsonld.  https://pypi.org/project/rdflib-jsonld/
+""",
+
+    maintainer='tgbugs',
+    url='https://github.com/tgbugs/rdflib-jsonld',
     license='BSD',
     packages=['rdflib_jsonld'],
     use_2to3=True,
@@ -93,7 +97,7 @@ setup(
         'Natural Language :: English',
     ],
     test_suite='nose.collector',
-    install_requires=['rdflib>=4.2'],
+    install_requires=['rdflib>=4.2.0'],
     tests_require=['nose'],
     command_options={
         'build_sphinx': {
